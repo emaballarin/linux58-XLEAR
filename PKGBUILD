@@ -15,7 +15,7 @@ _kernelname=-MANJARO
 _basekernel=5.8
 _basever=58
 pkgver=5.8.8
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -30,7 +30,7 @@ options=('!strip')
 source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.xz"
         "https://www.kernel.org/pub/linux/kernel/v5.x/patch-${pkgver}.xz"
         # the main kernel config files
-        'config' 'config.aufs' 'config.anbox'
+        'config' 'config.anbox'
         # ARCH Patches
         '0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch'
         # MANJARO Patches
@@ -66,7 +66,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
 sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
             '4cfc08e0e26f824eb876b9ebd8bb29f3739a2790e949a514ce31f7f5d58c8c44'
             '0ecba3688f213c56b443145c5ffcf3ddfbe9cb0ee4c1fc4bd1351266224ad997'
-            'b44d81446d8b53d5637287c30ae3eb64cae0078c3fbc45fcf1081dd6699818b5'
             'c079a87a7de0001f5f2b7a42a822c262e31f19f2c547613885f273822c9d4dcc'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             '7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978'
@@ -111,7 +110,9 @@ prepare() {
   msg2 "0013-bootsplash"
   git apply -p1 < "${srcdir}/0013-bootsplash.gitpatch"
 
+  msg2 "add config.anbox to config"
   cat "${srcdir}/config" > ./.config
+  cat "${srcdir}/config.anbox" >> ./.config
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
