@@ -14,8 +14,8 @@ pkgname=('linux58' 'linux58-headers')
 _kernelname=-MANJARO
 _basekernel=5.8
 _basever=58
-pkgver=5.8.9
-pkgrel=2
+pkgver=5.8.10
+pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -47,9 +47,10 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0002-pinctrl-amd.patch'
 
         # Temp Fixes
-        https://github.com/torvalds/linux/commit/88ce2a530cc9865a894454b2e40eba5957a60e1a.patch
 
         # Bootsplash
+        '0001-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
+        '0002-revert-fbcon-remove-soft-scrollback-code.patch'
         '0001-bootsplash.patch'
         '0002-bootsplash.patch'
         '0003-bootsplash.patch'
@@ -64,7 +65,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0012-bootsplash.patch'
         '0013-bootsplash.gitpatch')
 sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
-            'a8594374625680e91277e48a4f52176ae0cbf1a79ec26a28fbe94fae16df357b'
+            '76eb91cec69c43da7a8ff7e51abb8136d919eae8eef711b6db35fdf98fc0b2b1'
             '1ed0664ae01ce1abecf5fc20dc012bf19e21d4b3287f13902568551a82625a26'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
@@ -78,7 +79,8 @@ sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
             '382241dfd68c30f3d6aa77b53366950a7feaacd0c651b88cf8e2c1b40ef65caf'
             '1d58ef2991c625f6f0eb33b4cb8303932f53f1c4694e42bae24c9cd36d2ad013'
             '427fd41ac742110d413f01daba66d5cd023b8e63fdc63242fcc96f589e66867f'
-            '4bc4c84aedb0f429866d9aa5c94edec44194bac4d0b0c93c18106aee221d70a4'
+            'ddf1e7fc55cc6fe81ecfcac84112e573ca95713c027bc84d69cf880812fd6ff3'
+            '37a221c12b40122167b0a30b5a9f2fc99e2aeb94e4db58a719c2b30171c5aeb5'
             'a504f6cf84094e08eaa3cc5b28440261797bf4f06f04993ee46a20628ff2b53c'
             'e096b127a5208f56d368d2cb938933454d7200d70c86b763aa22c38e0ddb8717'
             '8c1c880f2caa9c7ae43281a35410203887ea8eae750fe8d360d0c8bf80fcc6e0'
