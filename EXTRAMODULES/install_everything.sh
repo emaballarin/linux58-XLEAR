@@ -137,6 +137,8 @@ cp ./*.pkg.tar.* "$XLEAR_PKGS"
 cd "$XLEAR_PKGS"
 sudo pacman -U ./* --noconfirm
 trizen -S wireguard-tools --noconfirm
+sudo mkinitcpio -P
+sudo update-grub
 
 # Ask for file cleanup
 echo ' '
