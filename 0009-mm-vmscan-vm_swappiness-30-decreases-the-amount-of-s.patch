@@ -1,0 +1,27 @@
+From 7fc483d271599f22c347ccf9f1c26c3da1355568 Mon Sep 17 00:00:00 2001
+From: Alexandre Frade <admfrade@gmail.com>
+Date: Mon, 29 Jan 2018 17:31:25 +0000
+Subject: [PATCH 07/14] mm/vmscan: vm_swappiness = 30 decreases the amount of
+ swapping
+
+Signed-off-by: Alexandre Frade <admfrade@gmail.com>
+---
+ mm/vmscan.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 749d239c62b2..7eaa26c47dd7 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -169,7 +169,7 @@ struct scan_control {
+ /*
+  * From 0 .. 200.  Higher means more swappy.
+  */
+-int vm_swappiness = 60;
++int vm_swappiness = 30;
+ /*
+  * The total number of pages which are beyond the high watermark within all
+  * zones.
+-- 
+2.27.0
+

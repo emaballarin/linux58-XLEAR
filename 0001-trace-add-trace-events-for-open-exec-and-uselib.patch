@@ -1,0 +1,96 @@
+From fcc38bd349bb0441b059f748618f364fc327d1c1 Mon Sep 17 00:00:00 2001
+From: Scott James Remnant <scott@ubuntu.com>
+Date: Tue, 27 Oct 2009 10:05:32 +0000
+Subject: trace: add trace events for open(), exec() and uselib() (for v3.7+)
+
+BugLink: http://bugs.launchpad.net/bugs/462111
+
+This patch uses TRACE_EVENT to add tracepoints for the open(),
+exec() and uselib() syscalls so that ureadahead can cheaply trace
+the boot sequence to determine what to read to speed up the next.
+
+It's not upstream because it will need to be rebased onto the syscall
+trace events whenever that gets merged, and is a stop-gap.
+
+[apw@canonical.com: updated for v3.7 and later.]
+[apw@canonical.com: updated for v3.19 and later.]
+BugLink: http://bugs.launchpad.net/bugs/1085766
+Signed-off-by: Scott James Remnant <scott@ubuntu.com>
+Acked-by: Stefan Bader <stefan.bader@canonical.com>
+Acked-by: Andy Whitcroft <andy.whitcroft@canonical.com>
+Signed-off-by: Stefan Bader <stefan.bader@canonical.com>
+
+Conflicts:
+
+	fs/open.c
+
+Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
+---
+ include/trace/events/fs.h | 53 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+ create mode 100644 include/trace/events/fs.h
+
+(limited to 'include/trace/events/fs.h')
+
+diff --git a/include/trace/events/fs.h b/include/trace/events/fs.h
+new file mode 100644
+index 0000000..fb634b7
+--- /dev/null
++++ b/include/trace/events/fs.h
+@@ -0,0 +1,53 @@
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM fs
++
++#if !defined(_TRACE_FS_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_FS_H
++
++#include <linux/fs.h>
++#include <linux/tracepoint.h>
++
++TRACE_EVENT(do_sys_open,
++
++	TP_PROTO(const char *filename, int flags, int mode),
++
++	TP_ARGS(filename, flags, mode),
++
++	TP_STRUCT__entry(
++		__string(	filename, filename		)
++		__field(	int, flags			)
++		__field(	int, mode			)
++	),
++
++	TP_fast_assign(
++		__assign_str(filename, filename);
++		__entry->flags = flags;
++		__entry->mode = mode;
++	),
++
++	TP_printk("\"%s\" %x %o",
++		  __get_str(filename), __entry->flags, __entry->mode)
++);
++
++TRACE_EVENT(open_exec,
++
++	TP_PROTO(const char *filename),
++
++	TP_ARGS(filename),
++
++	TP_STRUCT__entry(
++		__string(	filename, filename		)
++	),
++
++	TP_fast_assign(
++		__assign_str(filename, filename);
++	),
++
++	TP_printk("\"%s\"",
++		  __get_str(filename))
++);
++
++#endif /* _TRACE_FS_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
+-- 
+cgit v1.1
+
