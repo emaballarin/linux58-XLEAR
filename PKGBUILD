@@ -110,8 +110,8 @@ prepare() {
       patch -Np1 < "../$src"
   done
 
-  msg2 "0013-bootsplash"
-  git apply -p1 < "${srcdir}/0013-bootsplash.gitpatch"
+  msg2 "0513-bootsplash"
+  git apply -p1 < "${srcdir}/0513-bootsplash.gitpatch"
 
   msg2 "add config.anbox to config"
   cat "${srcdir}/config" > ./.config
