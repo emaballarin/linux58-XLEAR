@@ -102,7 +102,7 @@ source=(
 
         # BFQ-DEV by SIRLUCJAN
         '0001-bfq-reverts.patch'
-        '5.8-bfq-dev-lucjan-v12-r2K200909.patch'
+        '5.8-bfq-dev-lucjan-v13-r2K200922.patch'
 
         # FSGSBASE
         '0001-x86-ptrace-Prevent-ptrace-from-clearing-the-FS-GS-se.patch'
@@ -227,6 +227,9 @@ source=(
         '0129-nvme-workaround.patch'
         '0130-don-t-report-an-error-if-PowerClamp-run-on-other-CPU.patch'
 
+        # GLITCHED
+        'glitched.patch'
+
         # ... add stuff above this line...
 
         # GRAYSKY
@@ -283,6 +286,8 @@ sha256sums=(
             'SKIP'
 
             'SKIP'
+            'SKIP'
+
             'SKIP'
 
             'SKIP'

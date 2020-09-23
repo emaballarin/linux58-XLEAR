@@ -1,7 +1,7 @@
-From 100035364eaf1fd073c52da23abfba8ae1816c47 Mon Sep 17 00:00:00 2001
+From 50f95332e1d8ec40e5fb43f42cb7259d34851a63 Mon Sep 17 00:00:00 2001
 From: Piotr Gorski <lucjan.lucjanov@gmail.com>
 Date: Mon, 30 Mar 2020 03:00:37 +0200
-Subject: [PATCH 1/2] Revert "block, bfq: fix use-after-free in
+Subject: [PATCH 1/3] Revert "block, bfq: fix use-after-free in
  bfq_idle_slice_timer_body"
 
 This reverts commit 8e2f0aab601294084cb67f56be4fd2cb6292ed80.
@@ -12,10 +12,10 @@ Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
  1 file changed, 4 insertions(+), 12 deletions(-)
 
 diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
-index 50c8f034c..532e2da5c 100644
+index caa4fa7f4..2d85d393e 100644
 --- a/block/bfq-iosched.c
 +++ b/block/bfq-iosched.c
-@@ -6215,28 +6215,20 @@ static struct bfq_queue *bfq_init_rq(struct request *rq)
+@@ -6203,28 +6203,20 @@ static struct bfq_queue *bfq_init_rq(struct request *rq)
  	return bfqq;
  }
  
@@ -47,7 +47,7 @@ index 50c8f034c..532e2da5c 100644
  	if (bfq_bfqq_budget_timeout(bfqq))
  		/*
  		 * Also here the queue can be safely expired
-@@ -6281,7 +6273,7 @@ static enum hrtimer_restart bfq_idle_slice_timer(struct hrtimer *timer)
+@@ -6269,7 +6261,7 @@ static enum hrtimer_restart bfq_idle_slice_timer(struct hrtimer *timer)
  	 * early.
  	 */
  	if (bfqq)
@@ -57,13 +57,13 @@ index 50c8f034c..532e2da5c 100644
  	return HRTIMER_NORESTART;
  }
 -- 
-2.28.0.337.ge9b77c84a0
+2.28.0.450.g3a238e539b
 
 
-From 59603bcb1e4512058cef46f21359e7d013af5ce5 Mon Sep 17 00:00:00 2001
+From a79cc7a07deb69812ae7e4ad286bea75f0715611 Mon Sep 17 00:00:00 2001
 From: Piotr Gorski <lucjan.lucjanov@gmail.com>
 Date: Tue, 18 Aug 2020 22:34:49 +0200
-Subject: [PATCH 2/2] Revert "bfq: fix blkio cgroup leakage v4"
+Subject: [PATCH 2/3] Revert "bfq: fix blkio cgroup leakage v4"
 
 This reverts commit af07a63ee93eabd4b7aa5b257e687c92c19721d2.
 
@@ -131,5 +131,59 @@ index 26776bdbd..eb0e2a6da 100644
  
  /**
 -- 
-2.28.0.337.ge9b77c84a0
+2.28.0.450.g3a238e539b
+
+
+From 602c11cc8d6419184b5c196b15097b466ed932e7 Mon Sep 17 00:00:00 2001
+From: Piotr Gorski <lucjan.lucjanov@gmail.com>
+Date: Wed, 9 Sep 2020 03:29:00 +0200
+Subject: [PATCH 3/3] Revert "block: only call sched requeue_request() for
+ scheduled requests"
+
+This reverts commit 6e4e9148735faf488608b0cde1fb8c41a33c0ea6.
+
+Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
+---
+ block/bfq-iosched.c  | 12 ++++++++++++
+ block/blk-mq-sched.h |  2 +-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
+index 2d85d393e..532e2da5c 100644
+--- a/block/bfq-iosched.c
++++ b/block/bfq-iosched.c
+@@ -5895,6 +5895,18 @@ static void bfq_finish_requeue_request(struct request *rq)
+ 	struct bfq_queue *bfqq = RQ_BFQQ(rq);
+ 	struct bfq_data *bfqd;
+ 
++	/*
++	 * Requeue and finish hooks are invoked in blk-mq without
++	 * checking whether the involved request is actually still
++	 * referenced in the scheduler. To handle this fact, the
++	 * following two checks make this function exit in case of
++	 * spurious invocations, for which there is nothing to do.
++	 *
++	 * First, check whether rq has nothing to do with an elevator.
++	 */
++	if (unlikely(!(rq->rq_flags & RQF_ELVPRIV)))
++		return;
++
+ 	/*
+ 	 * rq either is not associated with any icq, or is an already
+ 	 * requeued request that has not (yet) been re-inserted into
+diff --git a/block/blk-mq-sched.h b/block/blk-mq-sched.h
+index e81ca1bf6..126021fc3 100644
+--- a/block/blk-mq-sched.h
++++ b/block/blk-mq-sched.h
+@@ -66,7 +66,7 @@ static inline void blk_mq_sched_requeue_request(struct request *rq)
+ 	struct request_queue *q = rq->q;
+ 	struct elevator_queue *e = q->elevator;
+ 
+-	if ((rq->rq_flags & RQF_ELVPRIV) && e && e->type->ops.requeue_request)
++	if (e && e->type->ops.requeue_request)
+ 		e->type->ops.requeue_request(rq);
+ }
+ 
+-- 
+2.28.0.450.g3a238e539b
 

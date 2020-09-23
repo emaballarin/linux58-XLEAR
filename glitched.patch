@@ -1,0 +1,112 @@
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 57241417f..fa6ab237e 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -46,7 +46,7 @@ struct blk_stat_callback;
+ struct blk_keyslot_manager;
+ 
+ #define BLKDEV_MIN_RQ	4
+-#define BLKDEV_MAX_RQ	128	/* Default maximum */
++#define BLKDEV_MAX_RQ	512	/* Default maximum */
+ 
+ /* Must be consistent with blk_mq_poll_stats_bkt() */
+ #define BLK_MQ_POLL_STATS_BKTS 16
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index 01dd58c74..9f9865ea8 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -235,6 +235,10 @@ struct ftrace_likely_data {
+ #define asm_volatile_goto(x...) asm goto(x)
+ #endif
+ 
++#ifndef asm_volatile_goto
++#define asm_volatile_goto(x...) asm goto(x)
++#endif
++
+ #ifdef CONFIG_CC_HAS_ASM_INLINE
+ #define asm_inline asm __inline
+ #else
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 6b3b59cc5..6a90631c4 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -37,8 +37,8 @@
+  *
+  * (default: 6ms * (1 + ilog(ncpus)), units: nanoseconds)
+  */
+-unsigned int sysctl_sched_latency			= 6000000ULL;
+-static unsigned int normalized_sysctl_sched_latency	= 6000000ULL;
++unsigned int sysctl_sched_latency			= 3000000ULL;
++static unsigned int normalized_sysctl_sched_latency	= 3000000ULL;
+ 
+ /*
+  * The initial- and re-scaling of tunables is configurable
+@@ -58,13 +58,13 @@ enum sched_tunable_scaling sysctl_sched_tunable_scaling = SCHED_TUNABLESCALING_L
+  *
+  * (default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
+  */
+-unsigned int sysctl_sched_min_granularity			= 750000ULL;
+-static unsigned int normalized_sysctl_sched_min_granularity	= 750000ULL;
++unsigned int sysctl_sched_min_granularity			= 300000ULL;
++static unsigned int normalized_sysctl_sched_min_granularity	= 300000ULL;
+ 
+ /*
+  * This value is kept at sysctl_sched_latency/sysctl_sched_min_granularity
+  */
+-static unsigned int sched_nr_latency = 8;
++static unsigned int sched_nr_latency = 10;
+ 
+ /*
+  * After fork, child runs first. If set to 0 (default) then
+@@ -81,10 +81,10 @@ unsigned int sysctl_sched_child_runs_first __read_mostly;
+  *
+  * (default: 1 msec * (1 + ilog(ncpus)), units: nanoseconds)
+  */
+-unsigned int sysctl_sched_wakeup_granularity			= 1000000UL;
+-static unsigned int normalized_sysctl_sched_wakeup_granularity	= 1000000UL;
++unsigned int sysctl_sched_wakeup_granularity			= 500000UL;
++static unsigned int normalized_sysctl_sched_wakeup_granularity	= 500000UL;
+ 
+-const_debug unsigned int sysctl_sched_migration_cost	= 500000UL;
++const_debug unsigned int sysctl_sched_migration_cost	= 50000UL;
+ 
+ int sched_thermal_decay_shift;
+ static int __init setup_sched_thermal_decay_shift(char *str)
+@@ -128,7 +128,7 @@ int __weak arch_asym_cpu_priority(int cpu)
+  *
+  * (default: 5 msec, units: microseconds)
+  */
+-unsigned int sysctl_sched_cfs_bandwidth_slice		= 5000UL;
++unsigned int sysctl_sched_cfs_bandwidth_slice		= 3000UL;
+ #endif
+ 
+ static inline void update_load_add(struct load_weight *lw, unsigned long inc)
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 74300e337..93d7173a6 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -53,7 +53,11 @@ unsigned long transparent_hugepage_flags __read_mostly =
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE_MADVISE
+ 	(1<<TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG)|
+ #endif
++#ifdef CONFIG_AVL_INTERACTIVE
++	(1<<TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_OR_MADV_FLAG)|
++#else
+ 	(1<<TRANSPARENT_HUGEPAGE_DEFRAG_REQ_MADV_FLAG)|
++#endif
+ 	(1<<TRANSPARENT_HUGEPAGE_DEFRAG_KHUGEPAGED_FLAG)|
+ 	(1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG);
+ 
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index d809242f6..1c28f05aa 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -330,7 +330,7 @@ int watermark_boost_factor __read_mostly;
+ #else
+ int watermark_boost_factor __read_mostly = 15000;
+ #endif
+-int watermark_scale_factor = 10;
++int watermark_scale_factor = 200;
+ 
+ static unsigned long nr_kernel_pages __initdata;
+ static unsigned long nr_all_pages __initdata;
