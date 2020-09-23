@@ -236,7 +236,7 @@ source=(
 sha256sums=(
             'e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
 
-            'a95a6f53a3662734218eb6270c993114897e6a3c97b8cdbbabbf027af1e11edd''
+            'a95a6f53a3662734218eb6270c993114897e6a3c97b8cdbbabbf027af1e11edd'
 
             'SKIP'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
