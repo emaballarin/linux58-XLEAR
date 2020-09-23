@@ -27,7 +27,7 @@ pkgname=('linux58-xlear' 'linux58-xlear-headers')
 _kernelname=-XLEAR
 _basekernel=5.8
 _basever=58
-pkgver=5.8.10
+pkgver=5.8.11
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -58,22 +58,23 @@ source=(
         '0001-ZEN-Add-VHBA-driver.patch'
 
         # MANJARO Patches
-        '0001-i2c-nuvoton-nc677x-hwmon-driver.patch'
-        '0001-iomap-iomap_bmap-should-accept-unwritten-maps.patch'
-        '0001-futex.patch'
-        '0001-apparmor-patch-to-provide-compatibility-with-v2-net-rules.patch'
-        '0002-apparmor-af_unix-mediation.patch'
-        '0003-apparmor-fix-use-after-free-in-sk_peer_label.patch'
-        '0004-apparmor-fix-apparmor-mediating-locking-non-fs-unix-sockets.patch'
+        '0101-i2c-nuvoton-nc677x-hwmon-driver.patch'
+        '0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch'
+        '0103-futex.patch'
+        '0201-apparmor-patch-to-provide-compatibility-with-v2-net-rules.patch'
+        '0202-apparmor-af_unix-mediation.patch'
+        '0203-apparmor-fix-use-after-free-in-sk_peer_label.patch'
+        '0204-apparmor-fix-apparmor-mediating-locking-non-fs-unix-sockets.patch'
 
         # Lenovo + AMD patches
-        '0001-nonupstream-navi10-vfio-reset.patch'
-        '0001-lenovo-wmi2.patch'
-        '0002-pinctrl-amd.patch'
+        '0301-nonupstream-navi10-vfio-reset.patch'
+        '0302-lenovo-wmi2.patch'
+        '0303-pinctrl-amd.patch'
 
         # Temp Fixes
         # none
 
+<<<<<<<
         # Manjaro-backed bootsplash support
         '0001-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
         '0002-revert-fbcon-remove-soft-scrollback-code.patch'
@@ -239,6 +240,27 @@ sha256sums=(
             '76eb91cec69c43da7a8ff7e51abb8136d919eae8eef711b6db35fdf98fc0b2b1'
 
             'SKIP'
+=======
+        # Bootsplash
+        '0401-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
+        '0402-revert-fbcon-remove-soft-scrollback-code.patch'
+        '0501-bootsplash.patch'
+        '0502-bootsplash.patch'
+        '0503-bootsplash.patch'
+        '0504-bootsplash.patch'
+        '0505-bootsplash.patch'
+        '0506-bootsplash.patch'
+        '0507-bootsplash.patch'
+        '0508-bootsplash.patch'
+        '0509-bootsplash.patch'
+        '0510-bootsplash.patch'
+        '0511-bootsplash.patch'
+        '0512-bootsplash.patch'
+        '0513-bootsplash.gitpatch')
+sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
+            'a95a6f53a3662734218eb6270c993114897e6a3c97b8cdbbabbf027af1e11edd'
+            '6680795cb36e2b93a7bcc120410207ef2cffc34d0056d10f48f27d94486d979d'
+>>>>>>>
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
 
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
@@ -436,8 +458,8 @@ prepare() {
   done
 
   # Defer this patch and see if everything works...
-  msg2 "0013-bootsplash"
-  git apply -p1 < "${srcdir}/0013-bootsplash.gitpatch"
+  msg2 "0513-bootsplash"
+  git apply -p1 < "${srcdir}/0513-bootsplash.gitpatch"
 
   # ~~ ALL PATCHES APPLIED! ~~
 
