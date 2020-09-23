@@ -74,23 +74,22 @@ source=(
         # Temp Fixes
         # none
 
-<<<<<<<
         # Manjaro-backed bootsplash support
-        '0001-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
-        '0002-revert-fbcon-remove-soft-scrollback-code.patch'
-        '0001-bootsplash.patch'
-        '0002-bootsplash.patch'
-        '0003-bootsplash.patch'
-        '0004-bootsplash.patch'
-        '0005-bootsplash.patch'
-        '0006-bootsplash.patch'
-        '0007-bootsplash.patch'
-        '0008-bootsplash.patch'
-        '0009-bootsplash.patch'
-        '0010-bootsplash.patch'
-        '0011-bootsplash.patch'
-        '0012-bootsplash.patch'
-        '0013-bootsplash.gitpatch'
+        '0401-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
+        '0402-revert-fbcon-remove-soft-scrollback-code.patch'
+        '0501-bootsplash.patch'
+        '0502-bootsplash.patch'
+        '0503-bootsplash.patch'
+        '0504-bootsplash.patch'
+        '0505-bootsplash.patch'
+        '0506-bootsplash.patch'
+        '0507-bootsplash.patch'
+        '0508-bootsplash.patch'
+        '0509-bootsplash.patch'
+        '0510-bootsplash.patch'
+        '0511-bootsplash.patch'
+        '0512-bootsplash.patch'
+        '0513-bootsplash.gitpatch'
 
         'mkinitcpio_conf.conf'
 
@@ -237,30 +236,9 @@ source=(
 sha256sums=(
             'e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
 
-            '76eb91cec69c43da7a8ff7e51abb8136d919eae8eef711b6db35fdf98fc0b2b1'
+            'a95a6f53a3662734218eb6270c993114897e6a3c97b8cdbbabbf027af1e11edd''
 
             'SKIP'
-=======
-        # Bootsplash
-        '0401-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch'
-        '0402-revert-fbcon-remove-soft-scrollback-code.patch'
-        '0501-bootsplash.patch'
-        '0502-bootsplash.patch'
-        '0503-bootsplash.patch'
-        '0504-bootsplash.patch'
-        '0505-bootsplash.patch'
-        '0506-bootsplash.patch'
-        '0507-bootsplash.patch'
-        '0508-bootsplash.patch'
-        '0509-bootsplash.patch'
-        '0510-bootsplash.patch'
-        '0511-bootsplash.patch'
-        '0512-bootsplash.patch'
-        '0513-bootsplash.gitpatch')
-sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
-            'a95a6f53a3662734218eb6270c993114897e6a3c97b8cdbbabbf027af1e11edd'
-            '6680795cb36e2b93a7bcc120410207ef2cffc34d0056d10f48f27d94486d979d'
->>>>>>>
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
 
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
