@@ -14,7 +14,7 @@ pkgname=('linux58' 'linux58-headers')
 _kernelname=-MANJARO
 _basekernel=5.8
 _basever=58
-pkgver=5.8.11
+pkgver=5.8.12
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -33,6 +33,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         'config' 'config.anbox'
         # ARCH Patches
         '0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-CLONE_NEWUSER.patch'
+        '0002-virtualbox-guest-VBG_IOCTL_ACQUIRE_GUEST_CAPABILITIES.patch'
         # MANJARO Patches
         '0101-i2c-nuvoton-nc677x-hwmon-driver.patch'
         '0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch'
@@ -65,8 +66,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0512-bootsplash.patch'
         '0513-bootsplash.gitpatch')
 sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
-            'a95a6f53a3662734218eb6270c993114897e6a3c97b8cdbbabbf027af1e11edd'
-            '6680795cb36e2b93a7bcc120410207ef2cffc34d0056d10f48f27d94486d979d'
+            '76eb91cec69c43da7a8ff7e51abb8136d919eae8eef711b6db35fdf98fc0b2b1'
+            '09f239332b6b17a8c3a0e71e70b2253924c2adc01bbecebfd4a7ad4f98052a34'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             '7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978'
