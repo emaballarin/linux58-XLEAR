@@ -66,10 +66,11 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0512-bootsplash.patch'
         '0513-bootsplash.gitpatch')
 sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
-            '76eb91cec69c43da7a8ff7e51abb8136d919eae8eef711b6db35fdf98fc0b2b1'
-            '09f239332b6b17a8c3a0e71e70b2253924c2adc01bbecebfd4a7ad4f98052a34'
+            '5f6093fe7e866f7953ff3c7e572939f61b225e49389355f0244a549597df1246'
+            '5d0c4a5c31f15cb809c0fb1a473ffe0a4c995615c92bcc301cec9dd30f5a184c'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
+            'aa9c045d4b1d92571aefd6182b26024fc4f8757d2388065289becd5130103214'
             '7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978'
             '95745075edd597caa92b369cfbcd11a04c9e3c88c0c987c70114924e1e01df5c'
             '78dde51123a21ec5efe9c420b309d03263001dafd8684f71c167f02e3f504f9e'
