@@ -89,7 +89,6 @@ source=(
         '0510-bootsplash.patch'
         '0511-bootsplash.patch'
         '0512-bootsplash.patch'
-<<<<<<<
         '0513-bootsplash.gitpatch'
 
         'mkinitcpio_conf.conf'
@@ -239,16 +238,9 @@ source=(
         )
 sha256sums=(
             'e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
-
-            'a95a6f53a3662734218eb6270c993114897e6a3c97b8cdbbabbf027af1e11edd'
-
-            'SKIP'
-=======
-        '0513-bootsplash.gitpatch')
-sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
             '5f6093fe7e866f7953ff3c7e572939f61b225e49389355f0244a549597df1246'
-            '5d0c4a5c31f15cb809c0fb1a473ffe0a4c995615c92bcc301cec9dd30f5a184c'
->>>>>>>
+            'SKIP'
+
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
 
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
