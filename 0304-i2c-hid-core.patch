@@ -1,0 +1,125 @@
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 294c84e136d7..1c4d6e34294e 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -36,6 +36,8 @@
+ #include <linux/hid.h>
+ #include <linux/mutex.h>
+ #include <linux/acpi.h>
++#include <linux/kthread.h>
++#include <linux/gpio/driver.h>
+ #include <linux/of.h>
+ #include <linux/regulator/consumer.h>
+ 
+@@ -772,7 +774,7 @@ static int i2c_hid_start(struct hid_devi
+ 		i2c_hid_free_buffers(ihid);
+ 
+ 		ret = i2c_hid_alloc_buffers(ihid, bufsize);
+-		enable_irq(client->irq);
++		/** enable_irq(client->irq); */
+ 
+ 		if (ret)
+ 			return ret;
+@@ -814,6 +816,54 @@ struct hid_ll_driver i2c_hid_ll_driver =
+ };
+ EXPORT_SYMBOL_GPL(i2c_hid_ll_driver);
+ 
++static struct task_struct *thread_hid = NULL;
++
++int get_pin_state(struct irq_desc *irq_desc)
++{
++	struct gpio_chip *gc = irq_data_get_irq_chip_data(&irq_desc->irq_data);
++    return gc->get(gc, irq_desc->irq_data.hwirq);
++}
++
++static int i2c_hid_thread(void *dev_client)
++{
++    struct i2c_client *client = dev_client;
++	struct i2c_hid *ihid = i2c_get_clientdata(client);
++    struct irq_desc *irq_desc;
++
++    irq_desc = irq_to_desc(client->irq);
++
++    while(1) {
++        if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
++            usleep_range(50000, 100000);
++
++        if (kthread_should_stop())
++            break;
++
++        if (get_pin_state(irq_desc) == 0) {
++            i2c_hid_get_input(ihid);
++            /* the report rate is ~144Hz*/
++            usleep_range(7000, 8000);
++        } else {
++            usleep_range(15000, 16000);
++        }
++    }
++
++    do_exit(0);
++	return 0;
++}
++
++static int i2c_hid_init_thread(struct i2c_client *client)
++{
++    thread_hid = kthread_create(i2c_hid_thread, client, "mythread_ihid");
++
++    if (thread_hid) {
++        pr_info("hid_thread created");
++        wake_up_process(thread_hid);
++    }
++
++	return 0;
++}
++
+ static int i2c_hid_init_irq(struct i2c_client *client)
+ {
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+@@ -1090,7 +1140,8 @@ static int i2c_hid_probe(struct i2c_clie
+ 	if (ret < 0)
+ 		goto err_regulator;
+ 
+-	ret = i2c_hid_init_irq(client);
++	/** ret = i2c_hid_init_irq(client); */
++	ret = i2c_hid_init_thread(client);
+ 	if (ret < 0)
+ 		goto err_regulator;
+ 
+@@ -1129,7 +1180,7 @@ err_mem_free:
+ 	hid_destroy_device(hid);
+ 
+ err_irq:
+-	free_irq(client->irq, ihid);
++	/* free_irq(client->irq, ihid); */
+ 
+ err_regulator:
+ 	regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
+@@ -1146,7 +1197,8 @@ static int i2c_hid_remove(struct i2c_cli
+ 	hid = ihid->hid;
+ 	hid_destroy_device(hid);
+ 
+-	free_irq(client->irq, ihid);
++	/* free_irq(client->irq, ihid); */
++        kthread_stop(thread_hid);
+ 
+ 	if (ihid->bufsize)
+ 		i2c_hid_free_buffers(ihid);
+@@ -1162,7 +1214,8 @@ static void i2c_hid_shutdown(struct i2c_
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+ 
+ 	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+-	free_irq(client->irq, ihid);
++	/* free_irq(client->irq, ihid); */
++        kthread_stop(thread_hid);
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+@@ -1225,7 +1278,7 @@ static int i2c_hid_resume(struct device
+ 				wake_status);
+ 	}
+ 
+-	enable_irq(client->irq);
++	/** enable_irq(client->irq); */
+ 
+ 	/* Instead of resetting device, simply powers the device on. This
+ 	 * solves "incomplete reports" on Raydium devices 2386:3118 and
