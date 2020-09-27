@@ -28,7 +28,7 @@ _kernelname=-XLEAR
 _basekernel=5.8
 _basever=58
 pkgver=5.8.12
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -70,6 +70,7 @@ source=(
         '0301-nonupstream-navi10-vfio-reset.patch'
         '0302-lenovo-wmi2.patch'
         '0303-pinctrl-amd.patch'
+        '0304-i2c-hid-core.patch'
 
         # Temp Fixes
         # none
@@ -261,6 +262,7 @@ sha256sums=(
             '1d58ef2991c625f6f0eb33b4cb8303932f53f1c4694e42bae24c9cd36d2ad013'
             '427fd41ac742110d413f01daba66d5cd023b8e63fdc63242fcc96f589e66867f'
 
+            '71d19a9255147cc598f5ae1542c45ec223128c5e1f2044b04a765021e578f27b'
             'ddf1e7fc55cc6fe81ecfcac84112e573ca95713c027bc84d69cf880812fd6ff3'
             '37a221c12b40122167b0a30b5a9f2fc99e2aeb94e4db58a719c2b30171c5aeb5'
             'a504f6cf84094e08eaa3cc5b28440261797bf4f06f04993ee46a20628ff2b53c'
