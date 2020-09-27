@@ -28,7 +28,7 @@ _kernelname=-XLEAR
 _basekernel=5.8
 _basever=58
 pkgver=5.8.12
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -61,6 +61,7 @@ source=(
         '0101-i2c-nuvoton-nc677x-hwmon-driver.patch'
         '0102-iomap-iomap_bmap-should-accept-unwritten-maps.patch'
         '0103-futex.patch'
+        '0104-revert-xhci-Add-support-for-Renesas-controller-with-memory.patch'
         '0201-apparmor-patch-to-provide-compatibility-with-v2-net-rules.patch'
         '0202-apparmor-af_unix-mediation.patch'
         '0203-apparmor-fix-use-after-free-in-sk_peer_label.patch'
@@ -253,6 +254,7 @@ sha256sums=(
             '7823d7488f42bc4ed7dfae6d1014dbde679d8b862c9a3697a39ba0dae5918978'
             '95745075edd597caa92b369cfbcd11a04c9e3c88c0c987c70114924e1e01df5c'
             '78dde51123a21ec5efe9c420b309d03263001dafd8684f71c167f02e3f504f9e'
+            '14fff25b581a0a8281a3419abd54d3bd200ede0374e685799da804f941c50f79'
             '98202b8ad70d02d86603294bae967874fa7b18704b5c7b867568b0fd33a08921'
             '5cbbf3db9ea3205e9b89fe3049bea6dd626181db0cb0dc461e4cf5a400c68dd6'
             'c7dbec875d0c1d6782c037a1dcefff2e5bdb5fc9dffac1beea07dd8c1bdef1d7'
