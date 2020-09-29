@@ -410,8 +410,6 @@ sha256sums=(
 
             'SKIP'
 
-            'SKIP'
-
             )
 prepare() {
   # Some flag magic
