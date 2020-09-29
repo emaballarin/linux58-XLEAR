@@ -1,6 +1,6 @@
-From ff570e3e7d00778e0731334eebd2ed8869106613 Mon Sep 17 00:00:00 2001
+From bed6207adc67187db138572b0adb70b01fb514ff Mon Sep 17 00:00:00 2001
 From: Piotr Gorski <lucjan.lucjanov@gmail.com>
-Date: Thu, 6 Aug 2020 18:41:54 +0200
+Date: Sun, 27 Sep 2020 23:13:14 +0200
 Subject: [PATCH] UKSM for 5.8
 
 Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
@@ -226,10 +226,10 @@ index f6f884970..8ff0d75c2 100644
  
  enum node_stat_item {
 diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 56c1e8eb7..757d18225 100644
+index 8075f6ae1..31a1ff979 100644
 --- a/include/linux/pgtable.h
 +++ b/include/linux/pgtable.h
-@@ -1027,12 +1027,25 @@ extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
+@@ -1029,12 +1029,25 @@ extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
  extern void untrack_pfn_moved(struct vm_area_struct *vma);
  #endif
  
@@ -256,7 +256,7 @@ index 56c1e8eb7..757d18225 100644
  }
  
  #define my_zero_pfn(addr)	page_to_pfn(ZERO_PAGE(addr))
-@@ -1041,7 +1054,7 @@ static inline int is_zero_pfn(unsigned long pfn)
+@@ -1043,7 +1056,7 @@ static inline int is_zero_pfn(unsigned long pfn)
  static inline int is_zero_pfn(unsigned long pfn)
  {
  	extern unsigned long zero_pfn;
@@ -1063,7 +1063,7 @@ index 6e9d46b2e..fae71acbe 100644
  obj-$(CONFIG_SLAB) += slab.o
  obj-$(CONFIG_SLUB) += slub.o
 diff --git a/mm/ksm.c b/mm/ksm.c
-index 4102034cd..13ea01100 100644
+index f16983394..a22b86494 100644
 --- a/mm/ksm.c
 +++ b/mm/ksm.c
 @@ -857,17 +857,6 @@ static int unmerge_ksm_pages(struct vm_area_struct *vma,
@@ -1085,10 +1085,10 @@ index 4102034cd..13ea01100 100644
  /*
   * Only called through the sysfs control interface:
 diff --git a/mm/memory.c b/mm/memory.c
-index 3ecad5510..fe4cb3866 100644
+index 03c693ea5..b32cbf714 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
-@@ -143,6 +143,25 @@ EXPORT_SYMBOL(zero_pfn);
+@@ -144,6 +144,25 @@ EXPORT_SYMBOL(zero_pfn);
  
  unsigned long highest_memmap_pfn __read_mostly;
  
@@ -1114,7 +1114,7 @@ index 3ecad5510..fe4cb3866 100644
  /*
   * CONFIG_MMU architectures set up ZERO_PAGE in their paging_init()
   */
-@@ -158,6 +177,7 @@ void mm_trace_rss_stat(struct mm_struct *mm, int member, long count)
+@@ -159,6 +178,7 @@ void mm_trace_rss_stat(struct mm_struct *mm, int member, long count)
  	trace_rss_stat(mm, member, count);
  }
  
@@ -1122,7 +1122,7 @@ index 3ecad5510..fe4cb3866 100644
  #if defined(SPLIT_RSS_COUNTING)
  
  void sync_mm_rss(struct mm_struct *mm)
-@@ -801,6 +821,11 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+@@ -802,6 +822,11 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
  		get_page(page);
  		page_dup_rmap(page, false);
  		rss[mm_counter(page)]++;
@@ -1134,7 +1134,7 @@ index 3ecad5510..fe4cb3866 100644
  	}
  
  out_set_pte:
-@@ -1073,8 +1098,10 @@ static unsigned long zap_pte_range(struct mmu_gather *tlb,
+@@ -1074,8 +1099,10 @@ static unsigned long zap_pte_range(struct mmu_gather *tlb,
  			ptent = ptep_get_and_clear_full(mm, addr, pte,
  							tlb->fullmm);
  			tlb_remove_tlb_entry(tlb, pte, addr);
@@ -1146,7 +1146,7 @@ index 3ecad5510..fe4cb3866 100644
  
  			if (!PageAnon(page)) {
  				if (pte_dirty(ptent)) {
-@@ -2410,6 +2437,7 @@ static inline bool cow_user_page(struct page *dst, struct page *src,
+@@ -2420,6 +2447,7 @@ static inline bool cow_user_page(struct page *dst, struct page *src,
  
  	if (likely(src)) {
  		copy_user_highpage(dst, src, addr, vma);
@@ -1154,7 +1154,7 @@ index 3ecad5510..fe4cb3866 100644
  		return true;
  	}
  
-@@ -2655,6 +2683,7 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
+@@ -2665,6 +2693,7 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
  							      vmf->address);
  		if (!new_page)
  			goto oom;
@@ -1162,7 +1162,7 @@ index 3ecad5510..fe4cb3866 100644
  	} else {
  		new_page = alloc_page_vma(GFP_HIGHUSER_MOVABLE, vma,
  				vmf->address);
-@@ -2697,7 +2726,9 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
+@@ -2707,7 +2736,9 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
  						mm_counter_file(old_page));
  				inc_mm_counter_fast(mm, MM_ANONPAGES);
  			}
@@ -1173,7 +1173,7 @@ index 3ecad5510..fe4cb3866 100644
  		}
  		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
 diff --git a/mm/mmap.c b/mm/mmap.c
-index 8c7ca737a..a924cb128 100644
+index dcdab2675..b9ad9a4f4 100644
 --- a/mm/mmap.c
 +++ b/mm/mmap.c
 @@ -46,6 +46,7 @@
@@ -1304,8 +1304,8 @@ index 8c7ca737a..a924cb128 100644
  	if (mm->locked_vm) {
  		vma = mm->mmap;
  		while (vma) {
-@@ -3173,6 +3203,11 @@ void exit_mmap(struct mm_struct *mm)
- 		vma = remove_vma(vma);
+@@ -3174,6 +3204,11 @@ void exit_mmap(struct mm_struct *mm)
+ 		cond_resched();
  	}
  	vm_unacct_memory(nr_accounted);
 +
@@ -1316,7 +1316,7 @@ index 8c7ca737a..a924cb128 100644
  }
  
  /* Insert vm structure into process list sorted by address
-@@ -3280,6 +3315,7 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
+@@ -3281,6 +3316,7 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
  			new_vma->vm_ops->open(new_vma);
  		vma_link(mm, new_vma, prev, rb_link, rb_parent);
  		*need_rmap_locks = false;
@@ -1324,7 +1324,7 @@ index 8c7ca737a..a924cb128 100644
  	}
  	return new_vma;
  
-@@ -3432,6 +3468,7 @@ static struct vm_area_struct *__install_special_mapping(
+@@ -3433,6 +3469,7 @@ static struct vm_area_struct *__install_special_mapping(
  	vm_stat_account(mm, vma->vm_flags, len >> PAGE_SHIFT);
  
  	perf_event_mmap(vma);
@@ -6952,7 +6952,7 @@ index 000000000..c762d1c1d
 +#endif
 +
 diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 3fb23a21f..ac0c5fccf 100644
+index 7fb01d225..54a435549 100644
 --- a/mm/vmstat.c
 +++ b/mm/vmstat.c
 @@ -1173,6 +1173,9 @@ const char * const vmstat_text[] = {
@@ -6966,5 +6966,5 @@ index 3fb23a21f..ac0c5fccf 100644
  	"nr_dirty_threshold",
  	"nr_dirty_background_threshold",
 -- 
-2.28.0.rc2.1.g3d20111cbd
+2.28.0.585.ge1cfff6765
 

@@ -134,9 +134,8 @@ source=(
         # XANMOD TRACE EVENTS for READAHEAD
         '0001-trace-add-trace-events-for-open-exec-and-uselib.patch'
 
-        # SYMBOLS FOR ANDROID
-        '0001-android-enable-building-ashmem-and-binder-as-modules.patch'
-        '0002-export-symbols-needed-by-android-drivers.patch'
+        # SYMBOLS FOR ANDROID/ANBOX
+        '0001-android-patches.patch'
 
         # ZSTD KERNEL COMPRESSION
         '0001-lib-prepare-zstd-for-preboot-environment.patch'
