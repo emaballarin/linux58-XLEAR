@@ -65,6 +65,7 @@ cd "$XLEAR_TMPDIR"
 #git clone --recursive https://github.com/emaballarin/linux58-XLEAR.git
 git clone --recursive https://gitlab.manjaro.org/packages/extra/linux${_LINUXVRS}-extramodules/nvidia-${_NVVER}xx.git
 git clone --recursive https://gitlab.manjaro.org/packages/extra/linux${_LINUXVRS}-extramodules/acpi_call.git
+git clone --recursive https://gitlab.manjaro.org/packages/extra/linux${_LINUXVRS}-extramodules/virtualbox-modules.git
 
 ####################
 ## Patch the code ##
@@ -97,6 +98,23 @@ sed -i "s/_extramodules=.*/_extramodules=extramodules-${_LINUXVRS_DOT}-${_LINUXP
 sed -i "s/install=\$_pkgname\.install.*/install=acpi_call-${_SMALLCAP_LINUXPREFIX}\.install/g" ./PKGBUILD
 sed -i "s/acpi_call\.install/acpi_call-${_SMALLCAP_LINUXPREFIX}\.install/g" ./PKGBUILD
 
+# Virtualbox & co.
+cd "$XLEAR_TMPDIR/virtualbox-modules"
+cp ../../vbomni.patch ./
+git apply ./vbomni.patch
+mv ./virtualbox-host-modules.install ./virtualbox-host-modules-${_SMALLCAP_LINUXPREFIX}.install
+mv ./virtualbox-guest-modules.install ./virtualbox-guest-modules-${_SMALLCAP_LINUXPREFIX}.install
+#sed -i "s/_linuxprefix=.*/_linuxprefix=linux58-xlear/g" ./PKGBUILD
+#sed -i "s/_extramodules=.*/_extramodules=extramodules-${_LINUXVRS_DOT}-${_LINUXPREFIX}/g" ./PKGBUILD
+#sed -i "s/install=virtualbox-host-modules\.install.*/install=virtualbox-host-modules-${_SMALLCAP_LINUXPREFIX}\.install/g" ./PKGBUILD
+#sed -i "s/install=virtualbox-guest-modules\.install.*/install=virtualbox-guest-modules-${_SMALLCAP_LINUXPREFIX}\.install/g" ./PKGBUILD
+#sed -i "s/virtualbox-host-modules\.install\"/virtualbox-host-modules-${_SMALLCAP_LINUXPREFIX}\.install\"/g" ./PKGBUILD
+#sed -i "s/virtualbox-guest-modules\.install\"/virtualbox-guest-modules-${_SMALLCAP_LINUXPREFIX}\.install\"/g" ./PKGBUILD
+#sed -i "s/package_linux58-virtualbox-host-modules/package_linux58-xlear-virtualbox-host-modules/g" ./PKGBUILD
+#sed -i "s/package_linux58-virtualbox-guest-modules/package_linux58-xlear-virtualbox-guest-modules/g" ./PKGBUILD
+sed -i "s/MANJARO/XLEAR/g" ./virtualbox-host-modules-${_SMALLCAP_LINUXPREFIX}.install
+sed -i "s/MANJARO/XLEAR/g" ./virtualbox-guest-modules-${_SMALLCAP_LINUXPREFIX}.install
+
 ####################
 ## Build packages ##
 ####################
@@ -109,6 +127,13 @@ makepkg -Csf --noconfirm
 
 cd "$XLEAR_TMPDIR/acpi_call"
 makepkg -Csf --noconfirm
+
+cd "$XLEAR_TMPDIR/virtualbox-modules"
+makepkg -Csf --noconfirm
+
+sudo pacman -R virtualbox-guest-dkms virtualbox-host-dkms --noconfirm
+sudo pacman -R virtualbox-guest-dkms virtualbox-guest-dkms --noconfirm
+echo "The PREVIOUS TWO lines MIGHT have returned an error. If so, it's expected."
 
 #####################
 ## Deploy packages ##

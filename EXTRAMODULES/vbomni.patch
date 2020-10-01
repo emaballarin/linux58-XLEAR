@@ -1,0 +1,142 @@
+diff --git a/PKGBUILD b/PKGBUILD
+index 838e3b4..26ed821 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -6,8 +6,8 @@
+ # Ionut Biru <ibiru@archlinux.org>
+ # Sébastien Luttringer <seblu@aur.archlinux.org>
+ 
+-_linuxprefix=linux58
+-_extramodules=extramodules-5.8-MANJARO
++_linuxprefix=linux58-xlear
++_extramodules=extramodules-5.8-XLEAR
+ pkgbase=$_linuxprefix-virtualbox-modules
+ pkgname=("$_linuxprefix-virtualbox-host-modules" "$_linuxprefix-virtualbox-guest-modules")
+ pkgver=6.1.14
+@@ -22,15 +22,27 @@ makedepends=("virtualbox-host-dkms>=$pkgver"
+              "virtualbox-guest-dkms>=$pkgver"
+              'dkms'
+              "$_linuxprefix" "$_linuxprefix-headers")
+-             
++
+ 
+ 
+ prepare() {
++
++  unset CXXFLAGS
++  unset CFFLAGS
++  unset CFLAGS
++  unset FFLAGS
++  unset LDFLAGS
++  export CXXFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -Wformat -Wformat-security -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -fno-semantic-interposition -ffat-lto-objects -fno-trapping-math -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native -fvisibility-inlines-hidden -Wl,--enable-new-dtags"
++  export CFFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -malign-data=abi -fno-semantic-interposition -ftree-vectorize -ftree-loop-vectorize -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native"
++  export CFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -Wformat -Wformat-security -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -fno-semantic-interposition -ffat-lto-objects -fno-trapping-math -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native"
++  export FFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -malign-data=abi -fno-semantic-interposition -ftree-vectorize -ftree-loop-vectorize -Wl,--enable-new-dtags -march=native"
++  export LDFLAGS="-Wl,-O3,--sort-common,--as-needed,-z,relro,-z,now"
++
+   _kernver="$(cat /usr/lib/modules/$_extramodules/version)"
+   # dkms need modification to be run as user
+   cp -r /var/lib/dkms .
+   echo "dkms_tree='$srcdir/dkms'" > dkms.conf
+-  
++
+   rm "$srcdir/dkms/vboxhost/${pkgver}_OSE/source"
+   cp -r "/usr/src/vboxhost-${pkgver}_OSE/" "$srcdir/dkms/vboxhost/${pkgver}_OSE/"
+   mv "$srcdir/dkms/vboxhost/${pkgver}_OSE/vboxhost-${pkgver}_OSE/" "$srcdir/dkms/vboxhost/${pkgver}_OSE/source/"
+@@ -38,18 +50,41 @@ prepare() {
+ }
+ 
+ build() {
++
++  unset CXXFLAGS
++  unset CFFLAGS
++  unset CFLAGS
++  unset FFLAGS
++  unset LDFLAGS
++  export CXXFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -Wformat -Wformat-security -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -fno-semantic-interposition -ffat-lto-objects -fno-trapping-math -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native -fvisibility-inlines-hidden -Wl,--enable-new-dtags"
++  export CFFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -malign-data=abi -fno-semantic-interposition -ftree-vectorize -ftree-loop-vectorize -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native"
++  export CFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -Wformat -Wformat-security -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -fno-semantic-interposition -ffat-lto-objects -fno-trapping-math -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native"
++  export FFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -malign-data=abi -fno-semantic-interposition -ftree-vectorize -ftree-loop-vectorize -Wl,--enable-new-dtags -march=native"
++  export LDFLAGS="-Wl,-O3,--sort-common,--as-needed,-z,relro,-z,now"
++
+   _kernver="$(cat /usr/lib/modules/$_extramodules/version)"
+   # build host modules
+   msg2 'Host modules'
+   dkms --dkmsframework dkms.conf build "vboxhost/$_pkgver" -k "$_kernver"
+ }
+ 
+-package_linux58-virtualbox-host-modules(){
++package_linux58-xlear-virtualbox-host-modules(){
+   pkgdesc='Host kernel modules for VirtualBox'
+   replaces=("$_linuxprefix-virtualbox-modules")
+   conflicts=("$_linuxprefix-virtualbox-modules")
+   provides=('VIRTUALBOX-HOST-MODULES')
+-  install=virtualbox-host-modules.install
++  install=virtualbox-host-modules-xlear.install
++
++  unset CXXFLAGS
++  unset CFFLAGS
++  unset CFLAGS
++  unset FFLAGS
++  unset LDFLAGS
++  export CXXFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -Wformat -Wformat-security -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -fno-semantic-interposition -ffat-lto-objects -fno-trapping-math -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native -fvisibility-inlines-hidden -Wl,--enable-new-dtags"
++  export CFFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -malign-data=abi -fno-semantic-interposition -ftree-vectorize -ftree-loop-vectorize -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native"
++  export CFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -Wformat -Wformat-security -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -fno-semantic-interposition -ffat-lto-objects -fno-trapping-math -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native"
++  export FFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -malign-data=abi -fno-semantic-interposition -ftree-vectorize -ftree-loop-vectorize -Wl,--enable-new-dtags -march=native"
++  export LDFLAGS="-Wl,-O3,--sort-common,--as-needed,-z,relro,-z,now"
+ 
+   _kernver="$(cat /usr/lib/modules/$_extramodules/version)"
+ 
+@@ -57,7 +92,7 @@ package_linux58-virtualbox-host-modules(){
+   cd "dkms/vboxhost/$_pkgver/$_kernver/$CARCH/module"
+   install -m644 * "$pkgdir/usr/lib/modules/$_extramodules"
+   find "$pkgdir" -name '*.ko' -exec gzip -9 {} +
+-  sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='$_extramodules'/" "$startdir/virtualbox-host-modules.install"
++  sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='$_extramodules'/" "$startdir/virtualbox-host-modules-xlear.install"
+ 
+   mkdir -p "$pkgdir/etc/modules-load.d"
+   echo "vboxdrv" > "$pkgdir/etc/modules-load.d/$_linuxprefix-virtualbox-host-modules.conf"
+@@ -65,11 +100,22 @@ package_linux58-virtualbox-host-modules(){
+   echo "vboxnetflt" >> "$pkgdir/etc/modules-load.d/$_linuxprefix-virtualbox-host-modules.conf"
+ }
+ 
+-package_linux58-virtualbox-guest-modules(){
++package_linux58-xlear-virtualbox-guest-modules(){
+   pkgdesc='Guest kernel modules for VirtualBox'
+   replaces=("$_linuxprefix-virtualbox-manjaro-modules")
+   conflicts=("$_linuxprefix-virtualbox-manjaro-modules")
+   provides=('VIRTUALBOX-GUEST-MODULES')
+ 
++  unset CXXFLAGS
++  unset CFFLAGS
++  unset CFLAGS
++  unset FFLAGS
++  unset LDFLAGS
++  export CXXFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -Wformat -Wformat-security -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -fno-semantic-interposition -ffat-lto-objects -fno-trapping-math -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native -fvisibility-inlines-hidden -Wl,--enable-new-dtags"
++  export CFFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -malign-data=abi -fno-semantic-interposition -ftree-vectorize -ftree-loop-vectorize -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native"
++  export CFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -Wformat -Wformat-security -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -fno-semantic-interposition -ffat-lto-objects -fno-trapping-math -Wl,-sort-common -Wl,--enable-new-dtags -fno-plt -march=native"
++  export FFLAGS="-g -O3 -feliminate-unused-debug-types -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=32 -m64 -fasynchronous-unwind-tables -Wp,-D_REENTRANT -ftree-loop-distribute-patterns -Wl,-z -Wl,now -Wl,-z -Wl,relro -malign-data=abi -fno-semantic-interposition -ftree-vectorize -ftree-loop-vectorize -Wl,--enable-new-dtags -march=native"
++  export LDFLAGS="-Wl,-O3,--sort-common,--as-needed,-z,relro,-z,now"
++
+   echo "Guest-Modules are now built-in"
+ }
+diff --git a/virtualbox-guest-modules.install b/virtualbox-guest-modules.install
+index 12d997a..91b35c6 100644
+--- a/virtualbox-guest-modules.install
++++ b/virtualbox-guest-modules.install
+@@ -1,4 +1,4 @@
+-EXTRAMODULES='extramodules-5.8-MANJARO'
++EXTRAMODULES='extramodules-5.8-XLEAR'
+ 
+ post_install() {
+ cat << EOF
+diff --git a/virtualbox-host-modules.install b/virtualbox-host-modules.install
+index 0f2188b..e2e6224 100644
+--- a/virtualbox-host-modules.install
++++ b/virtualbox-host-modules.install
+@@ -1,4 +1,4 @@
+-EXTRAMODULES='extramodules-5.8-MANJARO'
++EXTRAMODULES='extramodules-5.8-XLEAR'
+ 
+ post_install() {
+ cat << EOF

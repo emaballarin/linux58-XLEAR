@@ -104,7 +104,7 @@ source=(
 
         # BFQ-DEV by SIRLUCJAN
         '0001-bfq-reverts.patch'
-        '5.8-bfq-dev-lucjan-v13-r2K200922.patch'
+        '5.8-bfq-dev-lucjan-v13-r2K200929.patch'
 
         # FSGSBASE
         '0001-x86-ptrace-Prevent-ptrace-from-clearing-the-FS-GS-se.patch'

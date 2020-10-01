@@ -315,7 +315,7 @@ index 68882b9b8..6efa0f97e 100644
  	entity->orig_weight = entity->new_weight;
  	if (bfqq) {
 diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
-index 532e2da5c..aeddbad03 100644
+index 532e2da5c..1c5b689f9 100644
 --- a/block/bfq-iosched.c
 +++ b/block/bfq-iosched.c
 @@ -99,19 +99,19 @@
@@ -978,7 +978,7 @@ index 532e2da5c..aeddbad03 100644
  	bfqd->rq_in_driver--;
  }
  #endif
-@@ -2156,15 +2384,35 @@ static void bfq_remove_request(struct request_queue *q,
+@@ -2156,25 +2384,49 @@ static void bfq_remove_request(struct request_queue *q,
  	struct bfq_data *bfqd = bfqq->bfqd;
  	const int sync = rq_is_sync(rq);
  
@@ -1013,8 +1013,11 @@ index 532e2da5c..aeddbad03 100644
 +		     rq, sync, bfqq->queued[sync], bfqd->queued);
  	elv_rb_del(&bfqq->sort_list, rq);
  
- 	elv_rqhash_del(q, rq);
-@@ -2174,7 +2422,11 @@ static void bfq_remove_request(struct request_queue *q,
+-	elv_rqhash_del(q, rq);
++	elv_rqhash_del(rq);
+ 	if (q->last_merge == rq)
+ 		q->last_merge = NULL;
+ 
  	if (RB_EMPTY_ROOT(&bfqq->sort_list)) {
  		bfqq->next_rq = NULL;
  
@@ -4028,6 +4031,70 @@ index 126021fc3..e81ca1bf6 100644
  		e->type->ops.requeue_request(rq);
  }
  
+diff --git a/block/elevator.c b/block/elevator.c
+index 4eab3d70e..f63eac348 100644
+--- a/block/elevator.c
++++ b/block/elevator.c
+@@ -204,7 +204,7 @@ static inline void __elv_rqhash_del(struct request *rq)
+ 	rq->rq_flags &= ~RQF_HASHED;
+ }
+ 
+-void elv_rqhash_del(struct request_queue *q, struct request *rq)
++void elv_rqhash_del(struct request *rq)
+ {
+ 	if (ELV_ON_HASH(rq))
+ 		__elv_rqhash_del(rq);
+@@ -418,7 +418,7 @@ struct request *elv_latter_request(struct request_queue *q, struct request *rq)
+ 	struct elevator_queue *e = q->elevator;
+ 
+ 	if (e->type->ops.next_request)
+-		return e->type->ops.next_request(q, rq);
++		return e->type->ops.next_request(rq);
+ 
+ 	return NULL;
+ }
+@@ -428,7 +428,7 @@ struct request *elv_former_request(struct request_queue *q, struct request *rq)
+ 	struct elevator_queue *e = q->elevator;
+ 
+ 	if (e->type->ops.former_request)
+-		return e->type->ops.former_request(q, rq);
++		return e->type->ops.former_request(rq);
+ 
+ 	return NULL;
+ }
+@@ -809,8 +809,7 @@ ssize_t elv_iosched_show(struct request_queue *q, char *name)
+ 	return len;
+ }
+ 
+-struct request *elv_rb_former_request(struct request_queue *q,
+-				      struct request *rq)
++struct request *elv_rb_former_request(struct request *rq)
+ {
+ 	struct rb_node *rbprev = rb_prev(&rq->rb_node);
+ 
+@@ -821,8 +820,7 @@ struct request *elv_rb_former_request(struct request_queue *q,
+ }
+ EXPORT_SYMBOL(elv_rb_former_request);
+ 
+-struct request *elv_rb_latter_request(struct request_queue *q,
+-				      struct request *rq)
++struct request *elv_rb_latter_request(struct request *rq)
+ {
+ 	struct rb_node *rbnext = rb_next(&rq->rb_node);
+ 
+diff --git a/block/mq-deadline.c b/block/mq-deadline.c
+index b57470e15..bf2004423 100644
+--- a/block/mq-deadline.c
++++ b/block/mq-deadline.c
+@@ -118,7 +118,7 @@ static void deadline_remove_request(struct request_queue *q, struct request *rq)
+ 	if (!RB_EMPTY_NODE(&rq->rb_node))
+ 		deadline_del_rq_rb(dd, rq);
+ 
+-	elv_rqhash_del(q, rq);
++	elv_rqhash_del(rq);
+ 	if (q->last_merge == rq)
+ 		q->last_merge = NULL;
+ }
 diff --git a/include/linux/blk-cgroup.h b/include/linux/blk-cgroup.h
 index a57ebe2f0..8d7b83313 100644
 --- a/include/linux/blk-cgroup.h
@@ -4176,3 +4243,38 @@ index 57241417f..45bee4023 100644
  
  /* flags that prevent us from merging requests: */
  #define RQF_NOMERGE_FLAGS \
+diff --git a/include/linux/elevator.h b/include/linux/elevator.h
+index bacc40a0b..3821cc1de 100644
+--- a/include/linux/elevator.h
++++ b/include/linux/elevator.h
+@@ -46,8 +46,8 @@ struct elevator_mq_ops {
+ 	bool (*has_work)(struct blk_mq_hw_ctx *);
+ 	void (*completed_request)(struct request *, u64);
+ 	void (*requeue_request)(struct request *);
+-	struct request *(*former_request)(struct request_queue *, struct request *);
+-	struct request *(*next_request)(struct request_queue *, struct request *);
++	struct request *(*former_request)(struct request *);
++	struct request *(*next_request)(struct request *);
+ 	void (*init_icq)(struct io_cq *);
+ 	void (*exit_icq)(struct io_cq *);
+ };
+@@ -90,7 +90,7 @@ struct elevator_type
+ 
+ #define ELV_HASH_BITS 6
+ 
+-void elv_rqhash_del(struct request_queue *q, struct request *rq);
++void elv_rqhash_del(struct request *rq);
+ void elv_rqhash_add(struct request_queue *q, struct request *rq);
+ void elv_rqhash_reposition(struct request_queue *q, struct request *rq);
+ struct request *elv_rqhash_find(struct request_queue *q, sector_t offset);
+@@ -140,8 +140,8 @@ extern struct elevator_queue *elevator_alloc(struct request_queue *,
+ /*
+  * Helper functions.
+  */
+-extern struct request *elv_rb_former_request(struct request_queue *, struct request *);
+-extern struct request *elv_rb_latter_request(struct request_queue *, struct request *);
++extern struct request *elv_rb_former_request(struct request *);
++extern struct request *elv_rb_latter_request(struct request *);
+ 
+ /*
+  * rb support functions.
