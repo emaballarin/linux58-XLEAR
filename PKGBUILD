@@ -15,7 +15,7 @@ _kernelname=-MANJARO
 _basekernel=5.8
 _basever=58
 pkgver=5.8.13
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -44,10 +44,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0203-apparmor-fix-use-after-free-in-sk_peer_label.patch'
         '0204-apparmor-fix-apparmor-mediating-locking-non-fs-unix-sockets.patch'
          # Lenovo + AMD
-        '0301-nonupstream-navi10-vfio-reset.patch'
         '0302-lenovo-wmi2.patch'
         '0303-pinctrl-amd.patch'
-#        '0304-i2c-hid-core.patch' (break the other tochpads)
 
         # Temp Fixes
 
