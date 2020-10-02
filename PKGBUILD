@@ -179,6 +179,7 @@ source=(
         '0014-ALSA-hda-hdmi-Add-Intel-silent-stream-support.patch'
         '0016-vfs-keep-inodes-with-page-cache-off-the-inode-shrink.patch'
         '0017-tty-Allow-setting-the-number-of-available-virtual-TT.patch'
+        '0018-scsi-sd-Optimal-I-O-size-should-be-a-multiple-of-rep.patch'
 
         # SIRLUCJAN EXTRAFEATURES
         '0001-mm-ksm-introduce-ksm_madvise_merge-helper.patch'
@@ -197,6 +198,7 @@ source=(
         # SIRLUCJAN BLOCKFIXES
         '0011-block-Convert-to-use-the-preferred-fallthrough-macro.patch'
         '0012-block-bfq-Disable-low_latency-when-blk_iolatency-is-.patch'
+        '0013-block-Fix-use-after-free-issue-while-accessing-iosch.patch'
 
         # CLEAR LINUX PATCHSET
         '0101-i8042-decrease-debug-message-level-to-info.patch'
@@ -397,6 +399,9 @@ sha256sums=(
             'SKIP'
             'SKIP'
             'SKIP'
+            'SKIP'
+            'SKIP'
+
             'SKIP'
             'SKIP'
 

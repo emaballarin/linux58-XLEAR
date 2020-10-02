@@ -1,7 +1,7 @@
-From 92c75ec7a8428f611d560d2bae392b2138d4e414 Mon Sep 17 00:00:00 2001
+From 4387fe2c6f4d9d0baae431d83b10c29b7a9a1b9f Mon Sep 17 00:00:00 2001
 From: Harsha Priya <harshapriya.n@intel.com>
 Date: Mon, 6 Jul 2020 13:53:17 -0700
-Subject: [PATCH 14/16] ALSA: hda/hdmi: Add Intel silent stream support
+Subject: [PATCH 14/18] ALSA: hda/hdmi: Add Intel silent stream support
 
 External HDMI receivers have analog circuitry that needs to be powered-on
 when exiting standby, and a mechanism to detect PCM v. IEC61937 data.
@@ -36,7 +36,7 @@ Signed-off-by: Takashi Iwai <tiwai@suse.de>
  2 files changed, 78 insertions(+)
 
 diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
-index 7ba542e45..84aa04ecd 100644
+index 7ba542e..84aa04e 100644
 --- a/sound/pci/hda/Kconfig
 +++ b/sound/pci/hda/Kconfig
 @@ -230,6 +230,20 @@ config SND_HDA_POWER_SAVE_DEFAULT
@@ -61,7 +61,7 @@ index 7ba542e45..84aa04ecd 100644
  
  endmenu
 diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index f0c6d2907..b8c8490e5 100644
+index 419f012..4020500 100644
 --- a/sound/pci/hda/patch_hdmi.c
 +++ b/sound/pci/hda/patch_hdmi.c
 @@ -42,6 +42,11 @@ static bool enable_acomp = true;
@@ -157,7 +157,7 @@ index f0c6d2907..b8c8490e5 100644
  }
  
  static void hdmi_present_sense(struct hdmi_spec_per_pin *per_pin, int repoll)
-@@ -2817,6 +2874,13 @@ static int intel_hsw_common_init(struct hda_codec *codec, hda_nid_t vendor_nid,
+@@ -2818,6 +2875,13 @@ static int intel_hsw_common_init(struct hda_codec *codec, hda_nid_t vendor_nid,
  	spec->ops.setup_stream = i915_hsw_setup_stream;
  	spec->ops.pin_cvt_fixup = i915_pin_cvt_fixup;
  
@@ -172,5 +172,5 @@ index f0c6d2907..b8c8490e5 100644
  }
  
 -- 
-2.28.0.337.ge9b77c84a0
+2.28.0.585.ge1cfff6765
 

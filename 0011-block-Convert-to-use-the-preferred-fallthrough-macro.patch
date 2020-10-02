@@ -1,4 +1,4 @@
-From 907a67f910bf0fb660b0c74efa30dac66d787a5d Mon Sep 17 00:00:00 2001
+From c4ac955bdd7ea4d08aadb98e7d2e160d25f9a207 Mon Sep 17 00:00:00 2001
 From: Miaohe Lin <linmiaohe () huawei ! com>
 Date: Wed, 19 Aug 2020 08:50:44 +0000
 Subject: [PATCH 11/13] block: Convert to use the preferred fallthrough macro
@@ -28,7 +28,7 @@ index 2e5f569..d390566 100644
  		if (length <= 0)
  			return -EINVAL;
 diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
-index a4c0bec..c34b090 100644
+index ee767fa..fa98470 100644
 --- a/block/bfq-iosched.c
 +++ b/block/bfq-iosched.c
 @@ -4980,7 +4980,7 @@ bfq_set_next_ioprio_data(struct bfq_queue *bfqq, struct bfq_io_cq *bic)
@@ -76,5 +76,5 @@ index 77bcab1..04ebd37 100644
  		case IOPRIO_CLASS_BE:
  			if (data >= IOPRIO_BE_NR || data < 0)
 -- 
-2.28.0.497.g54e85e7af1
+2.28.0.585.ge1cfff6765
 

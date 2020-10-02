@@ -1,4 +1,4 @@
-From 13ae94057c51230bfabaedb266777684b49aa122 Mon Sep 17 00:00:00 2001
+From 8efe70e2f67baebbd51b52366e368ec0ae578f36 Mon Sep 17 00:00:00 2001
 From: Alexandre Frade <kernel@xanmod.org>
 Date: Sat, 22 Aug 2020 03:15:34 +0000
 Subject: [PATCH 12/13] block, bfq: Disable low_latency when blk_iolatency is
@@ -12,10 +12,10 @@ Signed-off-by: Alexandre Frade <kernel@xanmod.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
-index c34b090..dbf46dc 100644
+index fa98470..fd9efa1 100644
 --- a/block/bfq-iosched.c
 +++ b/block/bfq-iosched.c
-@@ -6501,7 +6501,7 @@ static int bfq_init_queue(struct request_queue *q, struct elevator_type *e)
+@@ -6489,7 +6489,7 @@ static int bfq_init_queue(struct request_queue *q, struct elevator_type *e)
  	bfqd->bfq_large_burst_thresh = 8;
  	bfqd->bfq_burst_interval = msecs_to_jiffies(180);
  
@@ -25,5 +25,5 @@ index c34b090..dbf46dc 100644
  	/*
  	 * Trade-off between responsiveness and fairness.
 -- 
-2.28.0.497.g54e85e7af1
+2.28.0.585.ge1cfff6765
 
