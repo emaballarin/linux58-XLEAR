@@ -28,7 +28,7 @@ _kernelname=-XLEAR
 _basekernel=5.8
 _basever=58
 pkgver=5.8.13
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -68,10 +68,8 @@ source=(
         '0204-apparmor-fix-apparmor-mediating-locking-non-fs-unix-sockets.patch'
 
         # Lenovo + AMD patches
-        '0301-nonupstream-navi10-vfio-reset.patch'
         '0302-lenovo-wmi2.patch'
         '0303-pinctrl-amd.patch'
-#        '0304-i2c-hid-core.patch' (break the other tochpads)
 
         # Temp Fixes
         # none
@@ -258,8 +256,6 @@ sha256sums=(
             '5cbbf3db9ea3205e9b89fe3049bea6dd626181db0cb0dc461e4cf5a400c68dd6'
             'c7dbec875d0c1d6782c037a1dcefff2e5bdb5fc9dffac1beea07dd8c1bdef1d7'
             '77746aea71ffb06c685e7769b49c78e29af9b2e28209cd245e95d9cbb0dba3c9'
-
-            '382241dfd68c30f3d6aa77b53366950a7feaacd0c651b88cf8e2c1b40ef65caf'
             '1d58ef2991c625f6f0eb33b4cb8303932f53f1c4694e42bae24c9cd36d2ad013'
             '427fd41ac742110d413f01daba66d5cd023b8e63fdc63242fcc96f589e66867f'
             'ddf1e7fc55cc6fe81ecfcac84112e573ca95713c027bc84d69cf880812fd6ff3'
