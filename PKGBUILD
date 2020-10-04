@@ -15,7 +15,7 @@ _kernelname=-MANJARO
 _basekernel=5.8
 _basever=58
 pkgver=5.8.13
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -47,6 +47,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0302-lenovo-wmi2.patch'
         '0303-pinctrl-amd.patch'
 
+        '0305-gpio-amd-fch.patch'
         # Temp Fixes
 
         # Bootsplash
@@ -67,7 +68,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0513-bootsplash.gitpatch')
 sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
             '1afdba17525f899c855eff4044a1519474c7164d3501e5d89565c9b6b1f5fd1b'
-            'f83c3c60776cb3bf7d424c8c9b2cac7e016050ccaf76b3c93c21562d1061e5a8'
+            'a4f4024073b1de14a8c1eabe9c57b8338cf0319d052329c174a4e564d1b07b94'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             'aa9c045d4b1d92571aefd6182b26024fc4f8757d2388065289becd5130103214'
@@ -81,6 +82,7 @@ sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
             '77746aea71ffb06c685e7769b49c78e29af9b2e28209cd245e95d9cbb0dba3c9'
             '1d58ef2991c625f6f0eb33b4cb8303932f53f1c4694e42bae24c9cd36d2ad013'
             '427fd41ac742110d413f01daba66d5cd023b8e63fdc63242fcc96f589e66867f'
+            '71d19a9255147cc598f5ae1542c45ec223128c5e1f2044b04a765021e578f27b'
             'ddf1e7fc55cc6fe81ecfcac84112e573ca95713c027bc84d69cf880812fd6ff3'
             '37a221c12b40122167b0a30b5a9f2fc99e2aeb94e4db58a719c2b30171c5aeb5'
             'a504f6cf84094e08eaa3cc5b28440261797bf4f06f04993ee46a20628ff2b53c'
