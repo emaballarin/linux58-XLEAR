@@ -165,7 +165,14 @@ source=(
         '0014-lib-kconfig.debug-disable-default-CONFIG_SYMBOLIC_ER.patch'
         '0015-net-sched-Allow-changing-default-qdisc-to-FQ-PIE.patch'
 
-        # SIRLUCJAN MMFIXES
+        # SIRLUCJAN MMFIXES (proper)
+        '0001-mm-rewrite-wait_on_page_bit_common-logic.patch'
+        '0002-mm-add-list_del_init_careful-to-go-with-list_empty_c.patch'
+        '0003-list-add-list_del_init_careful-to-go-with-list_empty.patch'
+        '0004-mm-filemap.c-fix-a-data-race-in-filemap_fault.patch'
+        '0005-mm-allow-a-controlled-amount-of-unfairness-in-the-pa.patch'
+
+        # SIRLUCJAN MMFIXES (misc)
         '0004-mm-Disable-watermark-boosting-by-default.patch'
         '0005-mm-Stop-kswapd-early-when-nothing-s-waiting-for-it-t.patch'
         '0006-mm-Fully-disable-watermark-boosting-when-it-isn-t-us.patch'
@@ -402,6 +409,12 @@ sha256sums=(
             'SKIP'
             'SKIP'
 
+            'SKIP'
+            'SKIP'
+
+            'SKIP'
+            'SKIP'
+            'SKIP'
             'SKIP'
             'SKIP'
 
