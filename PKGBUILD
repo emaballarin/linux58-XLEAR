@@ -14,8 +14,8 @@ pkgname=('linux58' 'linux58-headers')
 _kernelname=-MANJARO
 _basekernel=5.8
 _basever=58
-pkgver=5.8.13
-pkgrel=4
+pkgver=5.8.14
+pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -46,8 +46,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
          # Lenovo + AMD
         '0302-lenovo-wmi2.patch'
         '0303-pinctrl-amd.patch'
-
-        '0305-gpio-amd-fch.patch'
         # Temp Fixes
 
         # Bootsplash
@@ -67,8 +65,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v5.x/linux-${_basekernel}.tar.x
         '0512-bootsplash.patch'
         '0513-bootsplash.gitpatch')
 sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
-            '1afdba17525f899c855eff4044a1519474c7164d3501e5d89565c9b6b1f5fd1b'
-            'a4f4024073b1de14a8c1eabe9c57b8338cf0319d052329c174a4e564d1b07b94'
+            'd90eea7cf576c1dc3f3964f7fade1ff44207cd4aa66bfdb5c7207b0f7b2c5c7c'
+            '379a10e7f310766a3416a94d037da9c4ccebd5f08beb96bba686e0090df79858'
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
             '986f8d802f37b72a54256f0ab84da83cb229388d58c0b6750f7c770818a18421'
             'aa9c045d4b1d92571aefd6182b26024fc4f8757d2388065289becd5130103214'
@@ -82,7 +80,6 @@ sha256sums=('e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
             '77746aea71ffb06c685e7769b49c78e29af9b2e28209cd245e95d9cbb0dba3c9'
             '1d58ef2991c625f6f0eb33b4cb8303932f53f1c4694e42bae24c9cd36d2ad013'
             '427fd41ac742110d413f01daba66d5cd023b8e63fdc63242fcc96f589e66867f'
-            '66b44bcff26f095563b3d900f18e99dd6fe262ddb0151c3c5ec306065cf11fa3'
             'ddf1e7fc55cc6fe81ecfcac84112e573ca95713c027bc84d69cf880812fd6ff3'
             '37a221c12b40122167b0a30b5a9f2fc99e2aeb94e4db58a719c2b30171c5aeb5'
             'a504f6cf84094e08eaa3cc5b28440261797bf4f06f04993ee46a20628ff2b53c'
