@@ -27,8 +27,8 @@ pkgname=('linux58-xlear' 'linux58-xlear-headers')
 _kernelname=-XLEAR
 _basekernel=5.8
 _basever=58
-pkgver=5.8.13
-pkgrel=3
+pkgver=5.8.14
+pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -70,7 +70,6 @@ source=(
         # Lenovo + AMD patches
         '0302-lenovo-wmi2.patch'
         '0303-pinctrl-amd.patch'
-
         # Temp Fixes
         # none
 
@@ -89,6 +88,7 @@ source=(
         '0510-bootsplash.patch'
         '0511-bootsplash.patch'
         '0512-bootsplash.patch'
+<<<<<<<
         '0513-bootsplash.gitpatch'
 
         'mkinitcpio_conf.conf'
@@ -247,7 +247,7 @@ source=(
         )
 sha256sums=(
             'e7f75186aa0642114af8f19d99559937300ca27acaf7451b36d4f9b0f85cf1f5'
-            '1afdba17525f899c855eff4044a1519474c7164d3501e5d89565c9b6b1f5fd1b'
+            'd90eea7cf576c1dc3f3964f7fade1ff44207cd4aa66bfdb5c7207b0f7b2c5c7c'
             'SKIP'
 
             'fc896e5b00fad732d937bfb7b0db41922ecdb3a488bc1c1b91b201e028eed866'
