@@ -1,4 +1,4 @@
-From 0bdaaa8472ca6b9a5da305733bb045920f7d4d65 Mon Sep 17 00:00:00 2001
+From 82fb93cc013dd520c98459b0fe670e6f9c276c2a Mon Sep 17 00:00:00 2001
 From: "Martin K. Petersen" <martin.petersen@oracle.com>
 Date: Sun, 22 Mar 2020 16:57:06 -0400
 Subject: [PATCH 18/18] scsi: sd: Optimal I/O size should be a multiple of
@@ -28,7 +28,7 @@ Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
  2 files changed, 40 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index d90feff..685bdc1 100644
+index d90fefffe..685bdc180 100644
 --- a/drivers/scsi/sd.c
 +++ b/drivers/scsi/sd.c
 @@ -2881,7 +2881,6 @@ static void sd_read_app_tag_own(struct scsi_disk *sdkp, unsigned char *buffer)
@@ -117,7 +117,7 @@ index d90feff..685bdc1 100644
  		q->limits.io_opt = logical_to_bytes(sdp, sdkp->opt_xfer_blocks);
  		rw_max = logical_to_sectors(sdp, sdkp->opt_xfer_blocks);
 diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
-index 3a74f4b..8eda92f 100644
+index 3a74f4b45..8eda92f4f 100644
 --- a/drivers/scsi/sd.h
 +++ b/drivers/scsi/sd.h
 @@ -88,6 +88,7 @@ struct scsi_disk {

@@ -1,4 +1,4 @@
-From 9d3e51b07f4984b6388cb7d2b633be0a9948aa7c Mon Sep 17 00:00:00 2001
+From 6091c3ea3d0d10c68777ccf3f5ea573234a8b201 Mon Sep 17 00:00:00 2001
 From: Sultan Alsawaf <sultan@kerneltoast.com>
 Date: Thu, 9 Apr 2020 00:20:25 -0700
 Subject: [PATCH 06/18] mm: Fully disable watermark boosting when it isn't used
@@ -13,7 +13,7 @@ Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 657b876..3e585ef 100644
+index 657b876ba..3e585ef8b 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
 @@ -2473,9 +2473,11 @@ static void steal_suitable_fallback(struct zone *zone, struct page *page,

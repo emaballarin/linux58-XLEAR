@@ -1,4 +1,4 @@
-From 04f8970f44951ccea6d4a94462574576c803ac2c Mon Sep 17 00:00:00 2001
+From 5d3c840a6d40f64ab96e4df4cf2771ec6b72cbf9 Mon Sep 17 00:00:00 2001
 From: Nitin Gupta <nigupta@nvidia.com>
 Date: Tue, 16 Jun 2020 13:45:27 -0700
 Subject: [PATCH 10/18] mm: Proactive compaction
@@ -196,7 +196,7 @@ CC: Linux API <linux-api@vger.kernel.org>
  6 files changed, 223 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index d46d5b7..4b7c496 100644
+index d46d5b701..4b7c49619 100644
 --- a/Documentation/admin-guide/sysctl/vm.rst
 +++ b/Documentation/admin-guide/sysctl/vm.rst
 @@ -119,6 +119,21 @@ all zones are compacted such that free memory is available in contiguous
@@ -222,7 +222,7 @@ index d46d5b7..4b7c496 100644
  compact_unevictable_allowed
  ===========================
 diff --git a/include/linux/compaction.h b/include/linux/compaction.h
-index 6fa0eea..7a242d4 100644
+index 6fa0eea3f..7a242d464 100644
 --- a/include/linux/compaction.h
 +++ b/include/linux/compaction.h
 @@ -85,11 +85,13 @@ static inline unsigned long compact_gap(unsigned int order)
@@ -240,7 +240,7 @@ index 6fa0eea..7a242d4 100644
  extern enum compact_result try_to_compact_pages(gfp_t gfp_mask,
  		unsigned int order, unsigned int alloc_flags,
 diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index db1ce7a..58b0a59 100644
+index db1ce7af2..58b0a59c9 100644
 --- a/kernel/sysctl.c
 +++ b/kernel/sysctl.c
 @@ -2830,6 +2830,15 @@ static struct ctl_table vm_table[] = {
@@ -260,7 +260,7 @@ index db1ce7a..58b0a59 100644
  		.procname	= "extfrag_threshold",
  		.data		= &sysctl_extfrag_threshold,
 diff --git a/mm/compaction.c b/mm/compaction.c
-index 8637560..544a988 100644
+index 86375605f..544a98811 100644
 --- a/mm/compaction.c
 +++ b/mm/compaction.c
 @@ -50,6 +50,24 @@ static inline void count_compact_events(enum vm_event_item item, long delta)
@@ -504,7 +504,7 @@ index 8637560..544a988 100644
  
  	return 0;
 diff --git a/mm/internal.h b/mm/internal.h
-index aecb9df..26f39ee 100644
+index aecb9df10..26f39eeaa 100644
 --- a/mm/internal.h
 +++ b/mm/internal.h
 @@ -240,6 +240,7 @@ struct compact_control {
@@ -516,7 +516,7 @@ index aecb9df..26f39ee 100644
  	bool contended;			/* Signal lock or sched contention */
  	bool rescan;			/* Rescanning the same pageblock */
 diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 7fb01d2..2a25aac 100644
+index 7fb01d225..2a25aac43 100644
 --- a/mm/vmstat.c
 +++ b/mm/vmstat.c
 @@ -1074,6 +1074,24 @@ static int __fragmentation_index(unsigned int order, struct contig_page_info *in

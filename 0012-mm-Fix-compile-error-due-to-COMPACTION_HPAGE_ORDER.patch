@@ -1,4 +1,4 @@
-From b516776ca44dda0bc151ea5ee53e3e1c52a7fd2a Mon Sep 17 00:00:00 2001
+From c220d2d278e45393a8c1bbbfa319226dd83bf690 Mon Sep 17 00:00:00 2001
 From: Nitin Gupta <nigupta@nvidia.com>
 Date: Mon, 22 Jun 2020 23:45:44 -0700
 Subject: [PATCH 12/18] mm: Fix compile error due to COMPACTION_HPAGE_ORDER
@@ -16,7 +16,7 @@ Tested-by: Nathan Chancellor <natechancellor@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/mm/compaction.c b/mm/compaction.c
-index 2ca208e..b7d433f 100644
+index 2ca208eb6..b7d433f17 100644
 --- a/mm/compaction.c
 +++ b/mm/compaction.c
 @@ -62,7 +62,7 @@ static const unsigned int HPAGE_FRAG_CHECK_INTERVAL_MSEC = 500;

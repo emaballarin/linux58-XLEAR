@@ -1,4 +1,4 @@
-From e7edbfa770c9c0e9224d50ef8aaf3ab098b9b43a Mon Sep 17 00:00:00 2001
+From bfbbd2f11ad25ed51393798f13575b57ade17057 Mon Sep 17 00:00:00 2001
 From: Sultan Alsawaf <sultan@kerneltoast.com>
 Date: Sun, 8 Mar 2020 00:31:35 -0800
 Subject: [PATCH 08/18] kbuild: Disable stack conservation for GCC
@@ -14,7 +14,7 @@ Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
  1 file changed, 3 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 92d7b60..b7107ae 100644
+index 92d7b60b8..b7107aead 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -927,9 +927,6 @@ KBUILD_CFLAGS	+= $(call cc-option,-fmerge-constants)

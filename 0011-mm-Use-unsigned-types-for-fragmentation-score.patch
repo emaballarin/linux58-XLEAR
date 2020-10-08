@@ -1,4 +1,4 @@
-From 9c07fc4a7f20e98a440d7f25f2b88fee84fa0962 Mon Sep 17 00:00:00 2001
+From c8946e0ef54f956791942ee23bd8374986d7b889 Mon Sep 17 00:00:00 2001
 From: Nitin Gupta <nigupta@nvidia.com>
 Date: Wed, 17 Jun 2020 18:03:17 -0700
 Subject: [PATCH 11/18] mm: Use unsigned types for fragmentation score
@@ -16,7 +16,7 @@ Signed-off-by: Nitin Gupta <nigupta@nvidia.com>
  4 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/include/linux/compaction.h b/include/linux/compaction.h
-index 7a242d4..25a521d 100644
+index 7a242d464..25a521d29 100644
 --- a/include/linux/compaction.h
 +++ b/include/linux/compaction.h
 @@ -85,13 +85,13 @@ static inline unsigned long compact_gap(unsigned int order)
@@ -36,7 +36,7 @@ index 7a242d4..25a521d 100644
  extern enum compact_result try_to_compact_pages(gfp_t gfp_mask,
  		unsigned int order, unsigned int alloc_flags,
 diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 58b0a59..40180cd 100644
+index 58b0a59c9..40180cdde 100644
 --- a/kernel/sysctl.c
 +++ b/kernel/sysctl.c
 @@ -2833,7 +2833,7 @@ static struct ctl_table vm_table[] = {
@@ -49,7 +49,7 @@ index 58b0a59..40180cd 100644
  		.proc_handler	= proc_dointvec_minmax,
  		.extra1		= SYSCTL_ZERO,
 diff --git a/mm/compaction.c b/mm/compaction.c
-index 544a988..2ca208e 100644
+index 544a98811..2ca208eb6 100644
 --- a/mm/compaction.c
 +++ b/mm/compaction.c
 @@ -53,7 +53,7 @@ static inline void count_compact_events(enum vm_event_item item, long delta)
@@ -114,7 +114,7 @@ index 544a988..2ca208e 100644
  /*
   * This is the entry point for compacting all nodes via
 diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 2a25aac..07bea57 100644
+index 2a25aac43..07bea57b9 100644
 --- a/mm/vmstat.c
 +++ b/mm/vmstat.c
 @@ -1079,7 +1079,7 @@ static int __fragmentation_index(unsigned int order, struct contig_page_info *in

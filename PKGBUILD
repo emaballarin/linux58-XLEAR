@@ -88,7 +88,6 @@ source=(
         '0510-bootsplash.patch'
         '0511-bootsplash.patch'
         '0512-bootsplash.patch'
-<<<<<<<
         '0513-bootsplash.gitpatch'
 
         'mkinitcpio_conf.conf'
@@ -164,6 +163,12 @@ source=(
         '0013-net-sched-allow-configuring-cake-qdisc-as-default.patch'
         '0014-lib-kconfig.debug-disable-default-CONFIG_SYMBOLIC_ER.patch'
         '0015-net-sched-Allow-changing-default-qdisc-to-FQ-PIE.patch'
+
+        # SIRLUCJAN IOMAP FIXES
+        '0001-iomap-avoid-deadlock-if-memory-reclaim-is-triggered-.patch'
+        '0002-iomap-Clear-page-error-before-beginning-a-write.patch'
+        '0003-iomap-Mark-read-blocks-uptodate-in-write_begin.patch'
+        '0004-fs-direct-io-fix-one-time-init-of-s_dio_done_wq.patch'
 
         # SIRLUCJAN MMFIXES (proper)
         '0001-mm-rewrite-wait_on_page_bit_common-logic.patch'
@@ -413,6 +418,11 @@ sha256sums=(
             'SKIP'
 
             'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+
             'SKIP'
             'SKIP'
             'SKIP'

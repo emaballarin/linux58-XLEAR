@@ -1,4 +1,4 @@
-From 4387fe2c6f4d9d0baae431d83b10c29b7a9a1b9f Mon Sep 17 00:00:00 2001
+From 13e15baa461a7b6b9d8b5eb055f43a56c47312f4 Mon Sep 17 00:00:00 2001
 From: Harsha Priya <harshapriya.n@intel.com>
 Date: Mon, 6 Jul 2020 13:53:17 -0700
 Subject: [PATCH 14/18] ALSA: hda/hdmi: Add Intel silent stream support
@@ -36,7 +36,7 @@ Signed-off-by: Takashi Iwai <tiwai@suse.de>
  2 files changed, 78 insertions(+)
 
 diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
-index 7ba542e..84aa04e 100644
+index 7ba542e45..84aa04ecd 100644
 --- a/sound/pci/hda/Kconfig
 +++ b/sound/pci/hda/Kconfig
 @@ -230,6 +230,20 @@ config SND_HDA_POWER_SAVE_DEFAULT
@@ -61,7 +61,7 @@ index 7ba542e..84aa04e 100644
  
  endmenu
 diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index 419f012..4020500 100644
+index 419f012b9..402050088 100644
 --- a/sound/pci/hda/patch_hdmi.c
 +++ b/sound/pci/hda/patch_hdmi.c
 @@ -42,6 +42,11 @@ static bool enable_acomp = true;
