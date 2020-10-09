@@ -22,8 +22,8 @@ _LINUXPREFIX="XLEAR"
 _SMALLCAP_LINUXPREFIX="xlear"
 
 # NVIDIA VERSION:
-_NVVER="450"
-_NVSVER="66"
+_NVVER="455"
+_NVSVER="28"
 
 # ACPI_CALL VERSION:
 _ACPICVER="1.1.0"
@@ -63,7 +63,8 @@ rm -R -f ./*
 cd "$XLEAR_TMPDIR"
 
 #git clone --recursive https://github.com/emaballarin/linux58-XLEAR.git
-git clone --recursive https://gitlab.manjaro.org/packages/extra/linux${_LINUXVRS}-extramodules/nvidia-${_NVVER}xx.git
+#git clone --recursive https://gitlab.manjaro.org/packages/extra/linux${_LINUXVRS}-extramodules/nvidia-${_NVVER}xx.git
+git clone --recursive https://github.com/emaballarin/linux58-nvidia-455xx
 git clone --recursive https://gitlab.manjaro.org/packages/extra/linux${_LINUXVRS}-extramodules/acpi_call.git
 git clone --recursive https://gitlab.manjaro.org/packages/extra/linux${_LINUXVRS}-extramodules/virtualbox-modules.git
 
@@ -75,7 +76,8 @@ git clone --recursive https://gitlab.manjaro.org/packages/extra/linux${_LINUXVRS
 # Nothing to do!
 
 # nvidia-${_NVVER}xx
-cd "$XLEAR_TMPDIR/nvidia-${_NVVER}xx"
+#cd "$XLEAR_TMPDIR/nvidia-${_NVVER}xx"
+cd "$XLEAR_TMPDIR/linux58-nvidia-455xx"
 cp ../../emaballarin_nvopt.patch ./
 git apply ./emaballarin_nvopt.patch
 cp -f ../../NVIDIA-Linux-x86_64-${_NVVER}.${_NVSVER}-no-compat32.run ./
@@ -122,7 +124,8 @@ sed -i "s/MANJARO/XLEAR/g" ./virtualbox-guest-modules-${_SMALLCAP_LINUXPREFIX}.i
 #cd "$XLEAR_TMPDIR/linux${_LINUXVRS}-${_LINUXPREFIX}"
 #makepkg -Csfi --noconfirm
 
-cd "$XLEAR_TMPDIR/nvidia-${_NVVER}xx"
+#cd "$XLEAR_TMPDIR/nvidia-${_NVVER}xx"
+cd "$XLEAR_TMPDIR/linux58-nvidia-455xx"
 makepkg -Csf --noconfirm
 
 cd "$XLEAR_TMPDIR/acpi_call"
